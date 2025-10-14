@@ -1,0 +1,259 @@
+/* ==================== EXPERIENCE PAGE STYLES ==================== */
+
+.experience-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    padding-top: 80px;
+    padding-bottom: 60px;
+    min-height: 100vh;
+    background: rgba(248, 250, 252, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeInUp 0.8s ease;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 2rem;
+    border-radius: 16px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.page-header h1 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 0.8rem;
+}
+
+.page-header p {
+    font-size: 1.1rem;
+    color: #6b7280;
+}
+
+/* ==================== EXPERIENCE CARDS ==================== */
+.experience-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    flex: 1;
+    overflow: hidden;
+}
+
+.experience-card {
+    background: var(--glass-bg);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.8s ease;
+    border-left: 5px solid var(--secondary-color);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+}
+
+.experience-card:hover {
+    transform: translateX(10px);
+    box-shadow: var(--shadow-lg);
+    border-left-color: var(--accent-color);
+}
+
+.experience-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.job-info h3 {
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+}
+
+.company-name {
+    font-size: 0.8rem;
+    opacity: 0.9;
+}
+
+.duration {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.3rem 0.6rem;
+    border-radius: 15px;
+    font-weight: 500;
+    font-size: 0.75rem;
+}
+
+.experience-body {
+    padding: 0.8rem;
+    font-size: 0.8rem;
+}
+
+.experience-description {
+    color: #4b5563;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.responsibilities {
+    margin-top: 1.5rem;
+}
+
+.responsibilities h4 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.responsibilities ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.responsibilities li {
+    color: #4b5563;
+    padding: 0.5rem 0;
+    padding-left: 2rem;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.responsibilities li:hover {
+    color: var(--primary-color);
+    padding-left: 2.5rem;
+}
+
+.responsibilities li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.skills-used {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.skills-used h4 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.skill-tag {
+    background: var(--secondary-color);
+    color: white;
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.skill-tag:hover {
+    background: var(--accent-color);
+    color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+/* ==================== EXPERIENCE TYPE BADGES ==================== */
+.experience-type {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.type-fulltime {
+    background: #10b981;
+    color: white;
+}
+
+.type-internship {
+    background: #f59e0b;
+    color: white;
+}
+
+.type-freelance {
+    background: #8b5cf6;
+    color: white;
+}
+
+.type-volunteer {
+    background: #ec4899;
+    color: white;
+}
+
+/* ==================== TIMELINE VIEW (Alternative) ==================== */
+.experience-timeline {
+    position: relative;
+    padding-left: 3rem;
+}
+
+.experience-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--secondary-color), var(--accent-color));
+}
+
+.timeline-dot {
+    position: absolute;
+    left: -8px;
+    top: 30px;
+    width: 20px;
+    height: 20px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    border: 4px solid white;
+    box-shadow: 0 0 0 3px var(--secondary-color);
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+@media (max-width: 768px) {
+    .experience-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .experience-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .page-header h1 {
+        font-size: 2rem;
+    }
+
+    .responsibilities li {
+        padding-left: 1.5rem;
+    }
+
+    .responsibilities li:hover {
+        padding-left: 2rem;
+    }
+}
+
