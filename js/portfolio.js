@@ -261,6 +261,8 @@ function initImageCarousels() {
             }
             
             let currentIndex = 0;
+            let hoverIntervalId = null;
+            const AUTOPLAY_INTERVAL = 2200; // ms
         
             // Create dot indicators
             if (dotsContainer) {
@@ -270,16 +272,34 @@ function initImageCarousels() {
                     dot.className = 'carousel-dot';
                     if (index === 0) dot.classList.add('active');
                     dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
-                    dot.addEventListener('click', () => goToSlide(index));
+                    dot.addEventListener('click', () => {
+                        goToSlide(index);
+                        // keep autoplay cadence if hovering
+                        if (hoverIntervalId) {
+                            clearInterval(hoverIntervalId);
+                            hoverIntervalId = setInterval(nextSlide, AUTOPLAY_INTERVAL);
+                        }
+                    });
                     dotsContainer.appendChild(dot);
                 });
             }
             
             const dots = dotsContainer ? dotsContainer.querySelectorAll('.carousel-dot') : [];
             
+            function getSlideWidth() {
+                // Prefer the actual slide width to avoid discrepancies with borders/padding
+                const currentSlide = visibleSlides[currentIndex] || visibleSlides[0];
+                if (currentSlide) {
+                    const rect = currentSlide.getBoundingClientRect();
+                    if (rect && rect.width) return rect.width;
+                }
+                return carousel.getBoundingClientRect().width;
+            }
+
             function updateCarousel() {
-                const translateX = -currentIndex * 100;
-                track.style.transform = `translateX(${translateX}%)`;
+                const slideWidth = getSlideWidth();
+                const translateX = -(currentIndex * slideWidth);
+                track.style.transform = `translateX(${translateX}px)`;
                 
                 // Update dots
                 dots.forEach((dot, index) => {
@@ -311,12 +331,24 @@ function initImageCarousels() {
             // Set initial arrow visibility
             if (prevBtn) {
                 prevBtn.style.opacity = '0.85';
-                prevBtn.onclick = prevSlide;
+                prevBtn.onclick = () => {
+                    prevSlide();
+                    if (hoverIntervalId) {
+                        clearInterval(hoverIntervalId);
+                        hoverIntervalId = setInterval(nextSlide, AUTOPLAY_INTERVAL);
+                    }
+                };
             }
             
             if (nextBtn) {
                 nextBtn.style.opacity = '0.85';
-                nextBtn.onclick = nextSlide;
+                nextBtn.onclick = () => {
+                    nextSlide();
+                    if (hoverIntervalId) {
+                        clearInterval(hoverIntervalId);
+                        hoverIntervalId = setInterval(nextSlide, AUTOPLAY_INTERVAL);
+                    }
+                };
             }
             
             // Touch/swipe support
@@ -373,15 +405,38 @@ function initImageCarousels() {
             const enhanceControls = () => {
                 if (prevBtn) prevBtn.style.opacity = '1';
                 if (nextBtn) nextBtn.style.opacity = '1';
+                // Start autoplay on hover if there are multiple slides
+                if (!hoverIntervalId && visibleSlides.length > 1) {
+                    hoverIntervalId = setInterval(nextSlide, AUTOPLAY_INTERVAL);
+                }
             };
             
             const reduceControls = () => {
                 if (prevBtn) prevBtn.style.opacity = '0.85';
                 if (nextBtn) nextBtn.style.opacity = '0.85';
+                // Stop autoplay when not hovering
+                if (hoverIntervalId) {
+                    clearInterval(hoverIntervalId);
+                    hoverIntervalId = null;
+                }
             };
             
             carousel.addEventListener('mouseenter', enhanceControls);
             carousel.addEventListener('mouseleave', reduceControls);
+
+            // Recalculate positions on resize to avoid partial images after breakpoint changes
+            window.addEventListener('resize', () => {
+                // Temporarily disable transition for a clean snap on resize
+                const prevTransition = track.style.transition;
+                track.style.transition = 'none';
+                updateCarousel();
+                // Restore transition after one frame
+                requestAnimationFrame(() => {
+                    track.style.transition = prevTransition || 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                });
+            });
+            // Ensure initial alignment in case layout shifted after image load
+            updateCarousel();
         }
     });
 }
